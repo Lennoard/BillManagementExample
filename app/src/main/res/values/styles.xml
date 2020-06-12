@@ -1,0 +1,61 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.CardViewStyle" parent="android:Widget">
+        <item name="cardCornerRadius">6dp</item>
+    </style>
+    <style name="CardViewStyle" parent="Base.CardViewStyle"/>
+    <style name="MaterialCardViewStyle" parent="CardViewStyle">
+        <!--<item name="cardBackgroundColor">?attr/colorBackgroundFloating</item>-->
+    </style>
+
+    <style name="MaterialCardViewStyleDark" parent="MaterialCardViewStyle">
+        <item name="strokeColor">#60e9e9e9</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardCornerRadius">4dp</item>
+    </style>
+
+    <style name="FlatButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
+    <style name="FlatButton.Colored" parent="FlatButton">
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="OutlineButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/dividerColor</item>
+    </style>
+
+    <style name="OutlineButton.Colored" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="SingleLineText">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="ThemeOverlay.AppTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.AppTheme.BottomSheet.Modal</item>
+        <item name="bottomSheetStyle">@style/Widget.AppTheme.BottomSheet.Modal</item>
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.AppTheme.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">@style/BottomSheetShapeAppearanceOverlay</item>
+    </style>
+
+    <style name="Animation.AppTheme.BottomSheet.Modal" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/bottom_sheet_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_sheet_slide_out</item>
+    </style>
+
+    <style name="SelectableItemBackground">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+</resources>

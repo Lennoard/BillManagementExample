@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name" translatable="false">Contas a Pagar</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register_hint">Do not have an account? Tap here to create one with a new email and password</string>
+    <string name="welcome">Welcome!</string>
+    <string name="sign_in_text">Please sign in to continue</string>
+    <string name="invalid_email_message">Please enter a valid email address</string>
+    <string name="invalid_password_message">Must contain at least 6 characters</string>
+    <string name="error">Error</string>
+    <string name="sign_in_error">Failed to sign in: %s</string>
+    <string name="sign_in_error_no_user">There is no user with this email address</string>
+    <string name="sign_in_error_password">Email or password is incorrect</string>
+    <string name="sign_in_error_unknown">Unknown error</string>
+    <string name="network_unavailable">Network unavailable</string>
+    <string name="connected">Connected</string>
+    <string name="welcome_toast">Welcome, %s</string>
+    <string name="check_input_fields">Please, check the input fields</string>
+    <string name="register">Register</string>
+    <string name="register_failure">Failed to register: %s</string>
+    <string name="registration_complete">Registration complete, please sign in</string>
+</resources>
