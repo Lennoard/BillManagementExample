@@ -11,7 +11,7 @@ open class Transaction(
     var id: String = Utils.randomId(),
     var valor: Double = 0.0, // value /* TODO: BigDecimal /*
     var descricao: String = "", // description
-    var data: Timestamp? = null, // date
+    @Transient var data: Timestamp? = null, // date
     var time: Long = 0,
     var attachmentUrls : MutableList<String> = mutableListOf()
 ) : Serializable

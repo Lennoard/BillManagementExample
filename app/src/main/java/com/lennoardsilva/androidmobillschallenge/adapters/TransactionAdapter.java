@@ -1,6 +1,7 @@
 package com.lennoardsilva.androidmobillschallenge.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.lennoardsilva.androidmobillschallenge.R;
+import com.lennoardsilva.androidmobillschallenge.activities.EditTransactionActivity;
 import com.lennoardsilva.androidmobillschallenge.data.model.Despesa;
 import com.lennoardsilva.androidmobillschallenge.data.model.Receita;
 import com.lennoardsilva.androidmobillschallenge.data.model.Transaction;
@@ -183,7 +185,12 @@ public class TransactionAdapter extends RecyclerView.Adapter {
             }
 
             transactionHolder.itemLayout.setOnClickListener(v -> {
+                editTransaction(transaction);
+            });
+
+            transactionHolder.itemLayout.setOnLongClickListener(v -> {
                 showOptionSheet(transaction, position);
+                return true;
             });
 
         } else {
@@ -239,6 +246,7 @@ public class TransactionAdapter extends RecyclerView.Adapter {
         sheet.setOnOptionClickListener(tag -> {
             switch (tag) {
                 case "edit":
+                    editTransaction(transaction);
                     break;
 
                 case "delete":
@@ -248,6 +256,12 @@ public class TransactionAdapter extends RecyclerView.Adapter {
         });
 
         sheet.show(((AppCompatActivity) activity).getSupportFragmentManager(), "ctxSheet");
+    }
+
+    private void editTransaction(Transaction transaction) {
+        Intent intent = new Intent(activity, EditTransactionActivity.class);
+        intent.putExtra(EditTransactionActivity.EXTRA_TRANSACTION, transaction);
+        activity.startActivity(intent);
     }
 
     private void deleteTransaction(Transaction transaction, int position, ContextBottomSheet sheet) {

@@ -29,6 +29,8 @@
     <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
         <item name="android:editTextColor">?attr/colorPrimary</item>
         <item name="android:textColorHint">#54FFFFFF</item>
+        <item name="android:textColorSecondary">@color/colorOnBackground</item>
+        <item name="colorControlNormal">@color/colorOnBackground</item>
     </style>
 
     <style name="FlatButton" parent="Widget.MaterialComponents.Button.TextButton">

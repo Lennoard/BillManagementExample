@@ -19,19 +19,5 @@ open class BaseSheetFragment : BottomSheetDialogFragment() {
             .show()
     }
 
-    protected fun EditText.validateString(predicate: (String) -> Boolean) : Boolean {
-        return predicate(text.toString())
-    }
 
-    protected fun EditText.validateDouble(predicate: (Double) -> Boolean) : Boolean {
-        return runCatching {
-            predicate(text.toString().trim().toDouble())
-        }.getOrDefault(false)
-    }
-
-    protected fun EditText.validateDatetime(pattern: String = "dd/MM/yyyy HH:mm") : Boolean {
-        return runCatching {
-            Utils.parseDate(text.toString().trim(), pattern) != null
-        }.getOrDefault(false)
-    }
 }

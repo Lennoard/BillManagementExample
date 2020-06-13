@@ -39,3 +39,19 @@ fun ImageView.load(url: String) {
         .error(R.drawable.broken_image)
         .into(this)
 }
+
+fun EditText.validateString(predicate: (String) -> Boolean) : Boolean {
+    return predicate(text.toString())
+}
+
+fun EditText.validateDouble(predicate: (Double) -> Boolean) : Boolean {
+    return runCatching {
+        predicate(text.toString().trim().toDouble())
+    }.getOrDefault(false)
+}
+
+fun EditText.validateDatetime(pattern: String = "dd/MM/yyyy HH:mm") : Boolean {
+    return runCatching {
+        Utils.parseDate(text.toString().trim(), pattern) != null
+    }.getOrDefault(false)
+}

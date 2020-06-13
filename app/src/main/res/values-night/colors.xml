@@ -10,11 +10,11 @@
     <color name="colorError">#FF1744</color>
     <color name="colorWarning">#ffb74d</color>
     <color name="colorSuccess">#00e676</color>
-    <color name="colorSurface">#323232</color>
+    <color name="colorSurface">#282828</color>
     <color name="colorBackground">#212121</color>
     <color name="dividerColor">#80616161</color>
 
-    <color name="colorOnPrimary">@android:color/white</color>
+    <color name="colorOnPrimary">#DE000000</color>
     <color name="colorOnSecondary">@android:color/white</color>
     <color name="colorOnBackground">@android:color/white</color>
     <color name="colorOnSurface">@android:color/white</color>

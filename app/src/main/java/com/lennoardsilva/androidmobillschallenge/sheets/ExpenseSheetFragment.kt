@@ -14,9 +14,7 @@ import com.lennoardsilva.androidmobillschallenge.data.Consts
 import com.lennoardsilva.androidmobillschallenge.data.model.Expense
 import com.lennoardsilva.androidmobillschallenge.timeString
 import com.lennoardsilva.androidmobillschallenge.toast
-import com.lennoardsilva.androidmobillschallenge.utils.Utils
-import com.lennoardsilva.androidmobillschallenge.utils.hide
-import com.lennoardsilva.androidmobillschallenge.utils.show
+import com.lennoardsilva.androidmobillschallenge.utils.*
 import kotlinx.android.synthetic.main.sheet_expense.*
 import java.util.*
 
