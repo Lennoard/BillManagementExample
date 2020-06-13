@@ -14,7 +14,7 @@ import com.lennoardsilva.androidmobillschallenge.toast
 import com.lennoardsilva.androidmobillschallenge.utils.afterTextChanged
 import com.lennoardsilva.androidmobillschallenge.utils.goAway
 import com.lennoardsilva.androidmobillschallenge.utils.show
-import kotlinx.android.synthetic.main.register_sheet.*
+import kotlinx.android.synthetic.main.sheet_register.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -42,7 +42,7 @@ class RegisterSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.register_sheet, container, false)
+        return inflater.inflate(R.layout.sheet_register, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,6 +61,10 @@ class RegisterSheetFragment : BottomSheetDialogFragment() {
             registerPasswordContainer.error = if (it.length < 6) {
                 getString(R.string.invalid_password_message)
             } else null
+        }
+
+        registerCancel.setOnClickListener {
+            dismiss()
         }
 
         registerButton.setOnClickListener {
@@ -96,7 +100,7 @@ class RegisterSheetFragment : BottomSheetDialogFragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setIcon(R.drawable.ic_error)
             .setTitle(R.string.error)
-            .setMessage(getString(R.string.register_failure, reason))
+            .setMessage(getString(R.string.failure_format, reason))
             .setPositiveButton(android.R.string.ok) { _, _ -> }
             .show()
     }

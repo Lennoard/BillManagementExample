@@ -2,7 +2,11 @@ package com.lennoardsilva.androidmobillschallenge
 
 import android.app.Activity
 import android.content.Context
+import android.util.TypedValue
 import android.widget.Toast
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import io.opencensus.internal.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -20,6 +24,32 @@ fun Context?.toast(message: String?, length: Int = Toast.LENGTH_SHORT) {
     GlobalScope.launch(Dispatchers.Main) {
         Toast.makeText(ctx, message, length).show()
     }
+}
+
+fun Int.toPx(context: Context?): Int {
+    if (context == null) return this
+    return runCatching {
+        TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            this.toFloat(),
+            context.resources.displayMetrics
+        ).toInt()
+    }.getOrDefault(this)
+}
+
+@ColorInt
+fun Context.getColorFromAttr(
+    @AttrRes attrColor: Int,
+    typedValue: TypedValue = TypedValue(),
+    resolveRefs: Boolean = true
+): Int {
+    theme.resolveAttribute(attrColor, typedValue, resolveRefs)
+    return typedValue.data
+}
+
+fun Int.timeString() : String {
+    if (this > 9) return this.toString()
+    return "0$this"
 }
 
 suspend inline fun Activity?.runSafeOnUiThread(crossinline uiBlock: () -> Unit) {

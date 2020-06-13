@@ -13,6 +13,24 @@
         <item name="cardCornerRadius">4dp</item>
     </style>
 
+    <style name="CircularCardWrapper">
+        <item name="elevation">0dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Circle</item>
+    </style>
+
+    <style name="ToolbarStyle">
+        <item name="android:background">@color/colorBackground</item>
+        <item name="titleTextColor">?attr/colorOnBackground</item>
+        <item name="subtitleTextColor">@color/material_on_primary_emphasis_medium</item>
+        <item name="android:theme">@style/ToolbarTheme</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="android:editTextColor">?attr/colorPrimary</item>
+        <item name="android:textColorHint">#54FFFFFF</item>
+    </style>
+
     <style name="FlatButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="strokeWidth">0dp</item>
@@ -56,6 +74,12 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="SelectableItemBackgroundBorderless">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
 </resources>

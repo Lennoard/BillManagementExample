@@ -31,12 +31,7 @@ data class LocalUser(
 
     companion object {
         const val DEFAULT_USERNAME = "Novo usuário"
-        const val DEFAULT_PHOTO_URL = """
-                https://firebasestorage.googleapis.com/v0/b/
-                bill-management-3b89a.appspot.com/o/
-                internal%2Fdefault-profile-pic.png?alt=
-                media&token=e77e205c-671f-4c36-97d2-c823fd17df9b
-        """
+        const val DEFAULT_PHOTO_URL = "https://firebasestorage.googleapis.com/v0/b/bill-management-3b89a.appspot.com/o/internal%2Fdefault-profile-pic.png?alt=media&token=e77e205c-671f-4c36-97d2-c823fd17df9b"
 
         fun createFromFirebaseUser(user: FirebaseUser) : LocalUser {
             return LocalUser(

@@ -4,8 +4,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.lennoardsilva.androidmobillschallenge.R
 
 typealias SnackbarDuration = BaseTransientBottomBar.Duration
 
@@ -26,4 +29,13 @@ fun View.show() { this.visibility = View.VISIBLE }
 
 fun View.snackbar(msg: String, @SnackbarDuration duration: Int = Snackbar.LENGTH_SHORT) {
     Snackbar.make(this, msg, duration).show()
+}
+
+fun ImageView.load(url: String) {
+    Glide.with(this.context)
+        .load(url)
+        .centerCrop()
+        .placeholder(R.drawable.placeholder_image)
+        .error(R.drawable.broken_image)
+        .into(this)
 }

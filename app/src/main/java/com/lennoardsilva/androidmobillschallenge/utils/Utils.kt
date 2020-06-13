@@ -1,5 +1,7 @@
 package com.lennoardsilva.androidmobillschallenge.utils
 
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
 
@@ -35,5 +37,18 @@ object Utils {
 
     fun randomUid() : String {
         return UUID.randomUUID().toString().replace("-", "")
+    }
+
+    fun parseDate(dateString: String, pattern: String = "dd/MM/yyyy HH:mm"): Date? {
+        return runCatching {
+            SimpleDateFormat(pattern, Locale.ENGLISH).parse(dateString)
+        }.getOrNull()
+    }
+
+    @JvmStatic
+    fun dateMillisToString(millis: Long, pattern: String = "dd/MM/yyyy HH:mm"): String? {
+        return runCatching {
+            SimpleDateFormat(pattern, Locale.getDefault()).format(Date(millis))
+        }.getOrDefault("Data desconhecida")
     }
 }

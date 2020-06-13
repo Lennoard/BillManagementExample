@@ -1,5 +1,6 @@
 package com.lennoardsilva.androidmobillschallenge.activities
 
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Bundle
@@ -60,6 +61,13 @@ class LoginActivity : BaseActivity(), OnUserCreatedListener {
                                         BillsApp.findCurrentAccount().displayName
                                     )
                                 )
+
+                                Intent(this, MainActivity::class.java).apply {
+                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                    startActivity(this)
+                                }
+                                finish()
                             }
                         } else {
                             val message = getLoginFailureMessage(task)

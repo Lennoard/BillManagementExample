@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="@string/management">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/navExpenses" android:icon="@drawable/ic_expenses"
+                    android:title="@string/expenses" android:checked="true" />
+                <item android:id="@+id/navEarnings" android:icon="@drawable/ic_earnings"
+                    android:title="@string/earnings" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

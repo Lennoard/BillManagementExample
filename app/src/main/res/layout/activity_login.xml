@@ -79,6 +79,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/loginButton"
                 android:text="@string/sign_in"
+                android:fontFamily="@font/rubik"
+                android:textAllCaps="false"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="end"/>
 

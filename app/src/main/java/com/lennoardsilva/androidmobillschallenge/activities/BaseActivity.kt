@@ -52,7 +52,7 @@ open class BaseActivity : AppCompatActivity() {
     open val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             if (networkFlag) {
-                toast(R.string.connected)
+                //toast(R.string.connected)
             }
         }
 
@@ -61,5 +61,11 @@ open class BaseActivity : AppCompatActivity() {
             toast(R.string.network_unavailable, Toast.LENGTH_LONG)
         }
     }
+
+    private val recyclerViewColumns: Int
+        get () {
+            val isLandscape = resources.getBoolean(R.bool.is_landscape)
+            return if (isLandscape) 2 else 1
+        }
 }
 

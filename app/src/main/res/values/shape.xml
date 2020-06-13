@@ -16,6 +16,11 @@
         <!--Your custom shape here-->
     </style>
 
+    <style name="ShapeAppearance.Circle" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">54dp</item>
+    </style>
+
     <style name="BottomSheetShapeAppearanceOverlay" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">16dp</item>

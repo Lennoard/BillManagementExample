@@ -38,8 +38,8 @@ class BillsApp : Application() {
         val userRef : DocumentReference
             get() = db.document(userSpace)
 
-        val userCostsRef : CollectionReference
-            get() = db.collection("$userSpace/${Consts.DB_COSTS}")
+        val userExpensesRef : CollectionReference
+            get() = db.collection("$userSpace/${Consts.DB_EXPENSES}")
 
         val userRevenuesRef : CollectionReference
             get() = db.collection("$userSpace/${Consts.DB_REVENUES}")

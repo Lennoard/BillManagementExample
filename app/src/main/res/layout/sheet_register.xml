@@ -17,7 +17,6 @@
         style="@style/SingleLineText"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:id="@+id/modalBottomSheetTitle"
         android:gravity="center_vertical"
         android:text="@string/register"
         android:paddingTop="12dp"
@@ -84,10 +83,10 @@
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/registerCancel"
             style="@style/FlatButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:id="@+id/registerCancel"
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:maxWidth="140dp"

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/transactionItemLayout"
+    android:orientation="horizontal"
+    android:background="?attr/selectableItemBackground"
+    android:layout_marginTop="8dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:layout_marginStart="16dp">
+
+        <TextView
+            style="@style/SingleLineText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/transactionItemDate"
+            android:gravity="center_vertical"
+            android:textSize="12sp"
+            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/ic_time_18dp"
+            android:drawableTintMode="src_in"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            style="@style/TextAppearance.AppTheme.Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/transactionItemDescription"
+            android:layout_marginBottom="2dp"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/SingleLineText"
+                android:id="@+id/transactionItemValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"/>
+
+            <TextView
+                style="@style/SingleLineText"
+                android:id="@+id/transactionItemAttachments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:drawablePadding="4dp"
+                android:drawableStart="@drawable/ic_attachment_18dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CircularCardWrapper"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="16dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:id="@+id/transactionItemStatusIcon"
+            android:layout_gravity="center"
+            android:tint="@color/colorWarning"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
