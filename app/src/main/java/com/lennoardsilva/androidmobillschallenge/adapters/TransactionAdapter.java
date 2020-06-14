@@ -43,7 +43,7 @@ public class TransactionAdapter extends RecyclerView.Adapter {
 
     private Activity activity;
     private List<Transaction> dataSet;
-    private int visibleThreshold = 5;
+    private int visibleThreshold = 2;
     private boolean isLoading;
     private OnLoadMoreListener onLoadMoreListener;
     private CollectionReference ref;
@@ -66,7 +66,7 @@ public class TransactionAdapter extends RecyclerView.Adapter {
                 int totalItemCount = layoutManager.getItemCount();
 
                 if (dy < 0 || totalItemCount < visibleThreshold) return;
-                if (totalItemCount <= BaseListFragment.ITEMS_PER_PAGE) return;
+                if (totalItemCount < BaseListFragment.ITEMS_PER_PAGE) return;
 
                 int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
 

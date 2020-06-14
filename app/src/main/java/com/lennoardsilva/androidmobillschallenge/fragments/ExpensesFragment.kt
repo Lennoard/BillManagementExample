@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.fragment.app.setFragmentResultListener
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObjects
 import com.lennoardsilva.androidmobillschallenge.BillsApp
 import com.lennoardsilva.androidmobillschallenge.R
@@ -60,7 +61,10 @@ class ExpensesFragment : BaseListFragment() {
 
     override fun retrieveData(currentPosition: Int) {
         baseListFragmentSwipeLayout.isRefreshing = true
-        BillsApp.userExpensesRef.get().addOnCompleteListener { task ->
+        BillsApp.userExpensesRef.orderBy(
+            "time",
+            Query.Direction.DESCENDING
+        ).limit(maxResults.toLong()).get().addOnCompleteListener { task ->
             if (!isAdded) return@addOnCompleteListener
             baseListFragmentSwipeLayout.isRefreshing = false
 
@@ -75,7 +79,7 @@ class ExpensesFragment : BaseListFragment() {
                     baseListFragmentNothingFound.show()
                 }
                 adapter?.setLoaded()
-                refresh(currentPosition)
+                refresh(currentPosition - 2)
             } else {
                 baseListFragmentNothingFound.show()
             }

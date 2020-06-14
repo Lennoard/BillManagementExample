@@ -93,7 +93,7 @@ abstract class BaseListFragment : Fragment() {
         }
 
     companion object {
-        const val ITEMS_PER_PAGE = 16
+        const val ITEMS_PER_PAGE = 10
         const val TRANSACTION_REQUEST_KEY = "transaction_request"
     }
 }
