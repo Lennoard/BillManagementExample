@@ -21,4 +21,5 @@
     <color name="colorOnError">#FFFFFF</color>
 
     <color name="darkSurface">#212121</color>
+    <color name="statusBarColor">#E0E0E0</color>
 </resources>

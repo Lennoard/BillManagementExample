@@ -24,7 +24,6 @@ interface AttachmentRequestListener {
     fun onDeleteRequested(attachment: Attachment)
 }
 
-
 class AttachmentAdapter(
     private val dataSet: MutableList<Attachment>,
     private val context: Context,

@@ -6,10 +6,15 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lennoardsilva.androidmobillschallenge.R
+import com.lennoardsilva.androidmobillschallenge.isDarkMode
 import com.lennoardsilva.androidmobillschallenge.toast
 
 
@@ -18,6 +23,24 @@ open class BaseActivity : AppCompatActivity() {
         getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
     }
     protected var networkFlag = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        with (window) {
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            statusBarColor = ContextCompat.getColor(
+                this@BaseActivity,
+                R.color.statusBarColor
+            )
+
+            if (isDarkMode()) {
+                decorView.systemUiVisibility = 0
+            } else {
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
+    }
 
     override fun onStart() {
         super.onStart()

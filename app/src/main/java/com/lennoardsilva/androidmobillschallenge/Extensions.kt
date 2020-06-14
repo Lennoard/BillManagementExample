@@ -2,6 +2,7 @@ package com.lennoardsilva.androidmobillschallenge
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.AttrRes
@@ -23,6 +24,14 @@ fun Context?.toast(message: String?, length: Int = Toast.LENGTH_SHORT) {
 
     GlobalScope.launch(Dispatchers.Main) {
         Toast.makeText(ctx, message, length).show()
+    }
+}
+
+fun Context?.isDarkMode() : Boolean {
+    if (this == null) return false
+    return when (resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+        Configuration.UI_MODE_NIGHT_YES -> true
+        else -> false
     }
 }
 

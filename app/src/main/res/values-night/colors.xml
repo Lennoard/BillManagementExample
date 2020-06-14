@@ -21,4 +21,5 @@
     <color name="colorOnError">@android:color/white</color>
 
     <color name="darkSurface">#212121</color>
+    <color name="statusBarColor">#181818</color>
 </resources>
