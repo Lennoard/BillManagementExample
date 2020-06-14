@@ -8,7 +8,7 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.lennoardsilva.androidmobillschallenge.BillsApp
 import com.lennoardsilva.androidmobillschallenge.R
 import com.lennoardsilva.androidmobillschallenge.data.model.Expense
-import com.lennoardsilva.androidmobillschallenge.sheets.ExpenseSheetFragment
+import com.lennoardsilva.androidmobillschallenge.sheets.CreateTransactionSheetFragment
 import com.lennoardsilva.androidmobillschallenge.utils.show
 import kotlinx.android.synthetic.main.base_list_fragment.*
 
@@ -28,7 +28,7 @@ class ExpensesFragment : BaseListFragment() {
 
         baseListFragmentAdd.setOnClickListener {
             val appCompatActivity = requireActivity() as AppCompatActivity
-            ExpenseSheetFragment.newInstance(null).show(
+            CreateTransactionSheetFragment.newInstance(null).show(
                 appCompatActivity.supportFragmentManager,
                 "ExpenseSheetFragment"
             )

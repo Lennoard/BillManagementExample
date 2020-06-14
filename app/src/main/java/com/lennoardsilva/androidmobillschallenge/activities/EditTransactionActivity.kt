@@ -39,17 +39,19 @@ class EditTransactionActivity : BaseActivity() {
                     pickDate()
                 }
             }
-            
-            if (transaction is Expense) {
-                editTransactionPaid.setText(R.string.paid)
-                editTransactionPaid.isChecked = (transaction as Expense).pago
+
+            when (transaction) {
+                is Expense -> {
+                    editTransactionPaid.setText(R.string.paid)
+                    editTransactionPaid.isChecked = (transaction as Expense).pago
+                }
+
+                is Revenue -> {
+                    editTransactionPaid.setText(R.string.received)
+                    editTransactionPaid.isChecked = (transaction as Revenue).recebido
+                }
             }
 
-            if (transaction is Revenue) {
-                editTransactionPaid.setText(R.string.received)
-                editTransactionPaid.isChecked = (transaction as Revenue).recebido
-            }
-            
             editTransactionDone.setOnClickListener { 
                 if (validateInputFields()) {
                     saveTransaction()
@@ -86,12 +88,9 @@ class EditTransactionActivity : BaseActivity() {
             }
         }
 
-        if (transaction is Expense) {
-            (transaction as Expense).pago = editTransactionPaid.isChecked
-        }
-
-        if (transaction is Revenue) {
-            (transaction as Revenue).recebido = editTransactionPaid.isChecked
+        when (transaction) {
+            is Expense -> (transaction as Expense).pago = editTransactionPaid.isChecked
+            is Revenue -> (transaction as Revenue).recebido = editTransactionPaid.isChecked
         }
 
         ref.document(transaction!!.id).set(transaction!!).addOnCompleteListener { task ->

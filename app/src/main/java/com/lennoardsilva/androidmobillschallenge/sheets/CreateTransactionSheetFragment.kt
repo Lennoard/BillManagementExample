@@ -12,29 +12,33 @@ import com.lennoardsilva.androidmobillschallenge.BillsApp
 import com.lennoardsilva.androidmobillschallenge.R
 import com.lennoardsilva.androidmobillschallenge.data.Consts
 import com.lennoardsilva.androidmobillschallenge.data.model.Expense
+import com.lennoardsilva.androidmobillschallenge.data.model.Revenue
+import com.lennoardsilva.androidmobillschallenge.data.model.Transaction
 import com.lennoardsilva.androidmobillschallenge.timeString
 import com.lennoardsilva.androidmobillschallenge.toast
 import com.lennoardsilva.androidmobillschallenge.utils.*
-import kotlinx.android.synthetic.main.sheet_expense.*
+import kotlinx.android.synthetic.main.sheet_create_transaction.*
 import java.util.*
 
-class ExpenseSheetFragment : BaseSheetFragment() {
-    private var expense : Expense? = null
-    private var editing = false
+class CreateTransactionSheetFragment : BaseSheetFragment() {
+    private var transaction : Transaction? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let { args ->
-            (args.getSerializable(Consts.EXTRA_EXPENSE) as Expense?)?.let {
-                expense = it
-                editing = true
+            (args.getSerializable(Consts.EXTRA_TRANSACTION) as Expense?)?.let {
+                transaction = it
             }
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.sheet_expense, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.sheet_create_transaction, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,15 +52,14 @@ class ExpenseSheetFragment : BaseSheetFragment() {
 
         expenseSheetDone.setOnClickListener {
             if (validateInputFields()) {
-                if (expense == null) {
-                    expense = Expense()
+                if (transaction == null) {
+                    transaction = Transaction()
                 }
 
                 val date = Utils.parseDate(expenseSheetTime.text.toString())
-                expense?.apply {
+                transaction?.apply {
                     descricao = expenseSheetDescription.text.toString()
                     valor = expenseSheetValue.text.toString().toDouble()
-                    pago = expenseSheetPaid.isChecked
 
                     date?.let {
                         data = Timestamp(date)
@@ -64,7 +67,16 @@ class ExpenseSheetFragment : BaseSheetFragment() {
                     }
                 }
 
-                sendExpenseToDatabase()
+                when (transaction) {
+                    is Expense -> {
+                        (transaction as Expense).pago = expenseSheetPaid.isChecked
+                    }
+                    is Revenue -> {
+                        (transaction as Revenue).recebido = expenseSheetPaid.isChecked
+                    }
+                }
+
+                sendTransactionToDatabase()
             }
         }
 
@@ -73,9 +85,16 @@ class ExpenseSheetFragment : BaseSheetFragment() {
         }
     }
 
-    private fun sendExpenseToDatabase() = expense?.let {
+    private fun sendTransactionToDatabase() = transaction?.let {
         expenseSheetProgress.show()
-        BillsApp.userExpensesRef.document(it.id).set(it).addOnCompleteListener { task ->
+
+        val ref = if (transaction is Expense) {
+            BillsApp.userExpensesRef
+        } else {
+            BillsApp.userRevenuesRef
+        }
+
+        ref.document(it.id).set(it).addOnCompleteListener { task ->
             expenseSheetProgress.hide()
             if (task.isSuccessful) {
                 dismiss()
@@ -95,12 +114,8 @@ class ExpenseSheetFragment : BaseSheetFragment() {
                     hourOfDay, minute
                 ).timeInMillis
 
-                if (expense == null) {
-                    expense = Expense()
-                }
-
-                expense?.time = dateMillis
-                expense?.data = Timestamp(Date(dateMillis))
+                transaction?.time = dateMillis
+                transaction?.data = Timestamp(Date(dateMillis))
 
                 // 01/01/2010 01:01
                 expenseSheetTime.setText(
@@ -132,9 +147,9 @@ class ExpenseSheetFragment : BaseSheetFragment() {
     }
 
     companion object {
-        fun newInstance(expense: Expense?): ExpenseSheetFragment = ExpenseSheetFragment().apply {
+        fun newInstance(expense: Expense?): CreateTransactionSheetFragment = CreateTransactionSheetFragment().apply {
             arguments = Bundle().apply {
-                putSerializable(Consts.EXTRA_EXPENSE, expense)
+                putSerializable(Consts.EXTRA_TRANSACTION, expense)
             }
         }
     }

@@ -5,5 +5,5 @@ object Consts {
     const val DB_EXPENSES = "despesas"
     const val DB_REVENUES = "receitas"
 
-    const val EXTRA_EXPENSE = "expense"
+    const val EXTRA_TRANSACTION = "expense"
 }
