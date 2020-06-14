@@ -6,4 +6,5 @@ object Consts {
     const val DB_REVENUES = "receitas"
 
     const val EXTRA_TRANSACTION = "expense"
+    const val EXTRA_TITLE = "title"
 }

@@ -27,7 +27,7 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let { args ->
-            (args.getSerializable(Consts.EXTRA_TRANSACTION) as Expense?)?.let {
+            (args.getSerializable(Consts.EXTRA_TRANSACTION) as Transaction?)?.let {
                 transaction = it
             }
         }
@@ -44,22 +44,27 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        expenseSheetTime.setOnFocusChangeListener { _, hasFocus ->
+        arguments?.let {
+            createTransactionSheetTitle.text = it.getString(Consts.EXTRA_TITLE)
+        }
+
+        when (transaction) {
+            is Expense -> createTransactionSheetPaid.setText(R.string.paid)
+            is Revenue -> createTransactionSheetPaid.setText(R.string.received)
+        }
+
+        createTransactionSheetTime.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 pickDate()
             }
         }
 
-        expenseSheetDone.setOnClickListener {
+        createTransactionSheetDone.setOnClickListener {
             if (validateInputFields()) {
-                if (transaction == null) {
-                    transaction = Transaction()
-                }
-
-                val date = Utils.parseDate(expenseSheetTime.text.toString())
+                val date = Utils.parseDate(createTransactionSheetTime.text.toString())
                 transaction?.apply {
-                    descricao = expenseSheetDescription.text.toString()
-                    valor = expenseSheetValue.text.toString().toDouble()
+                    descricao = createTransactionSheetDescription.text.toString()
+                    valor = createTransactionSheetValue.text.toString().toDouble()
 
                     date?.let {
                         data = Timestamp(date)
@@ -68,25 +73,21 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
                 }
 
                 when (transaction) {
-                    is Expense -> {
-                        (transaction as Expense).pago = expenseSheetPaid.isChecked
-                    }
-                    is Revenue -> {
-                        (transaction as Revenue).recebido = expenseSheetPaid.isChecked
-                    }
+                    is Expense -> (transaction as Expense).pago = createTransactionSheetPaid.isChecked
+                    is Revenue -> (transaction as Revenue).recebido = createTransactionSheetPaid.isChecked
                 }
 
                 sendTransactionToDatabase()
             }
         }
 
-        expenseSheetCancel.setOnClickListener {
+        createTransactionSheetCancel.setOnClickListener {
             dismiss()
         }
     }
 
     private fun sendTransactionToDatabase() = transaction?.let {
-        expenseSheetProgress.show()
+        createTransactionSheetProgress.show()
 
         val ref = if (transaction is Expense) {
             BillsApp.userExpensesRef
@@ -95,7 +96,7 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
         }
 
         ref.document(it.id).set(it).addOnCompleteListener { task ->
-            expenseSheetProgress.hide()
+            createTransactionSheetProgress.hide()
             if (task.isSuccessful) {
                 dismiss()
             } else {
@@ -118,7 +119,7 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
                 transaction?.data = Timestamp(Date(dateMillis))
 
                 // 01/01/2010 01:01
-                expenseSheetTime.setText(
+                createTransactionSheetTime.setText(
                     "${dayOfMonth.timeString()}/${month.timeString()}/$year ${hourOfDay.timeString()}:${minute.timeString()}"
                 )
             }, 7, 0, true)
@@ -128,18 +129,18 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
     }
 
     private fun validateInputFields() : Boolean {
-        if (!expenseSheetValue.validateDouble { it >= 0 }) {
-            expenseSheetValue.error = getString(R.string.invalid_value)
+        if (!createTransactionSheetValue.validateDouble { it >= 0 }) {
+            createTransactionSheetValue.error = getString(R.string.invalid_value)
             return false
         }
 
-        if (!expenseSheetTime.validateDatetime()) {
-            expenseSheetTime.error = getString(R.string.invalid_value)
+        if (!createTransactionSheetTime.validateDatetime()) {
+            createTransactionSheetTime.error = getString(R.string.invalid_value)
             return false
         }
 
-        if (!expenseSheetDescription.validateString { it.isNotEmpty() }) {
-            expenseSheetDescription.error = getString(R.string.invalid_value)
+        if (!createTransactionSheetDescription.validateString { it.isNotEmpty() }) {
+            createTransactionSheetDescription.error = getString(R.string.invalid_value)
             return false
         }
 
@@ -147,9 +148,10 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
     }
 
     companion object {
-        fun newInstance(expense: Expense?): CreateTransactionSheetFragment = CreateTransactionSheetFragment().apply {
+        fun newInstance(transaction: Transaction?, title: String) = CreateTransactionSheetFragment().apply {
             arguments = Bundle().apply {
-                putSerializable(Consts.EXTRA_TRANSACTION, expense)
+                putSerializable(Consts.EXTRA_TRANSACTION, transaction)
+                putSerializable(Consts.EXTRA_TITLE, title)
             }
         }
     }

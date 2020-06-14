@@ -21,7 +21,7 @@
             style="@style/SingleLineText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:id="@+id/expenseSheetTitle"
+            android:id="@+id/createTransactionSheetTitle"
             android:gravity="center_vertical"
             android:text="@string/new_expense"
             android:paddingTop="12dp"
@@ -35,7 +35,7 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/expenseSheetProgress"
+            android:id="@+id/createTransactionSheetProgress"
             android:indeterminate="true"
             android:visibility="invisible"/>
 
@@ -57,7 +57,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/expenseSheetValue"
+                    android:id="@+id/createTransactionSheetValue"
                     android:inputType="numberDecimal"
                     android:selectAllOnFocus="true"/>
 
@@ -75,7 +75,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/expenseSheetTime"
+                    android:id="@+id/createTransactionSheetTime"
                     android:inputType="datetime"
                     android:selectAllOnFocus="true"/>
 
@@ -95,7 +95,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/expenseSheetDescription"
+                android:id="@+id/createTransactionSheetDescription"
                 android:inputType="textImeMultiLine"
                 android:selectAllOnFocus="true" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -103,7 +103,7 @@
         <com.google.android.material.checkbox.MaterialCheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/expenseSheetPaid"
+            android:id="@+id/createTransactionSheetPaid"
             android:text="@string/paid"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
@@ -122,7 +122,7 @@
                 style="@style/FlatButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/expenseSheetCancel"
+                android:id="@+id/createTransactionSheetCancel"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
                 android:maxWidth="140dp"
@@ -132,7 +132,7 @@
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/expenseSheetDone"
+                android:id="@+id/createTransactionSheetDone"
                 android:text="@android:string/ok"/>
 
         </LinearLayout>
