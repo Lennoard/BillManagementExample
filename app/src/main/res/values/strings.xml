@@ -46,5 +46,10 @@
     <string name="done">Done</string>
     <string name="edit_transaction">Edit transaction</string>
     <string name="new_revenue">New revenue</string>
+    <string name="attachments">Attachments</string>
+    <string name="download">Download</string>
+    <string name="download_completed">Download completed</string>
+    <string name="upload_completed">Upload completed</string>
+    <string name="error_file_too_big">Selected file is too large. Please select a file less than 10 MB in size.</string>
 
 </resources>

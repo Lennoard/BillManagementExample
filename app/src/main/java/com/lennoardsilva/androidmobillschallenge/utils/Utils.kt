@@ -1,9 +1,13 @@
 package com.lennoardsilva.androidmobillschallenge.utils
 
-import java.text.DateFormat
+import android.net.Uri
+import androidx.annotation.DrawableRes
+import com.lennoardsilva.androidmobillschallenge.R
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
+
 
 object Utils {
 
@@ -43,6 +47,45 @@ object Utils {
         return runCatching {
             SimpleDateFormat(pattern, Locale.ENGLISH).parse(dateString)
         }.getOrNull()
+    }
+
+    fun getFilenameFromUri(uri: Uri): String {
+        val file = File(uri.path!!)
+        val split = file.path.split(":")
+
+        return split[1]
+    }
+
+    @DrawableRes
+    fun getIconFromContentType(contentType: String): Int {
+        return when (contentType) {
+            "application/pdf" -> R.drawable.ic_file_pdf
+            "application/xml" -> R.drawable.ic_file_xml
+
+            "application/x-rar-compressed", "application/zip",
+            "application/x-7z-compressed", "application/x-tar" -> {
+                R.drawable.ic_file_compressed
+            }
+
+            "image/png", "image/jpeg", "image/bmp",
+            "image/gif", "image/webp" -> {
+               R.drawable.ic_file_image
+            }
+
+            "application/vnd.oasis.opendocument.text",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"-> {
+               R.drawable.ic_file_word
+            }
+
+            "application/vnd.oasis.opendocument.spreadsheet",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"-> {
+                R.drawable.ic_file_sheet
+            }
+
+            else -> R.drawable.ic_file
+        }
     }
 
     @JvmStatic

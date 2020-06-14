@@ -21,7 +21,7 @@ class BillsApp : Application() {
 
     companion object {
         private var account: LocalUser? = null
-        private val userSpace : String
+        val userSpace : String
             get() = "users/${findCurrentAccount().uid}"
 
         private val db : FirebaseFirestore by lazy {

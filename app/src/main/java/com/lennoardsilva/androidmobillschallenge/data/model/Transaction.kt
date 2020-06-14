@@ -13,7 +13,7 @@ open class Transaction(
     var descricao: String = "", // description
     @Transient var data: Timestamp? = null, // date
     var time: Long = 0,
-    var attachmentUrls : MutableList<String> = mutableListOf()
+    var attachments : MutableList<Attachment> = mutableListOf()
 ) : Serializable
 
 data class Despesa(

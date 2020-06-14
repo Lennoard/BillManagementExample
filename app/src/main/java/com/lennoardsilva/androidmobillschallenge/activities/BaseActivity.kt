@@ -37,11 +37,11 @@ open class BaseActivity : AppCompatActivity() {
         connectivityManager?.unregisterNetworkCallback(networkCallback)
     }
 
-    fun showErrorDialog(message: String, cancelable: Boolean = false, onOkClick: (() -> Unit)? = null) {
+    fun showErrorDialog(message: String?, cancelable: Boolean = false, onOkClick: (() -> Unit)? = null) {
         MaterialAlertDialogBuilder(this)
             .setIcon(R.drawable.ic_error)
             .setTitle(R.string.error)
-            .setMessage(message)
+            .setMessage(message ?: getString(R.string.error))
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 onOkClick?.let { it() }
             }

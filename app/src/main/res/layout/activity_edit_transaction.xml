@@ -17,7 +17,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -87,9 +87,44 @@
                 android:paddingEnd="16dp"
                 android:layout_margin="16dp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/TextAppearance.AppTheme.Rubik"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/attachments"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTransactionAddAttachment"
+                    android:text="@string/add"
+                    app:icon="@drawable/ic_add"
+                    android:textAllCaps="false"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="16dp"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTransactionAttachmentsRecyclerView"
+                android:orientation="horizontal"
+                android:scrollbars="horizontal"/>
+
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:layout_width="wrap_content"
@@ -100,6 +135,19 @@
         app:backgroundTint="@color/colorSurface"
         app:icon="@drawable/ic_save"
         app:iconTint="@color/colorPrimary"/>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom|end"
+        android:id="@+id/editTransactionProgressDeterminate"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="12dp"
+        android:visibility="invisible"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/circular_progress_determinate" />
 
     <ProgressBar
         android:layout_width="76dp"

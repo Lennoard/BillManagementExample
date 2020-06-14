@@ -7,4 +7,6 @@ object Consts {
 
     const val EXTRA_TRANSACTION = "expense"
     const val EXTRA_TITLE = "title"
+    const val EXTRA_ATTACHMENT = "attachment"
+    const val EXTRA_ATTACHMENT_REF = "attachment_ref"
 }

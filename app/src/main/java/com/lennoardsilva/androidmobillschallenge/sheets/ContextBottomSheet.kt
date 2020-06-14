@@ -25,7 +25,7 @@ class ContextBottomSheet : BaseSheetFragment() {
         var title: String,
         val tag: String,
         @ColorRes val tintColor: Int = R.color.colorOnBackground,
-        @DrawableRes val icon: Int?
+        @DrawableRes val icon: Int? = null
     ) : Serializable
 
     interface OnOptionClickListener {

@@ -134,12 +134,12 @@ public class TransactionAdapter extends RecyclerView.Adapter {
             transactionHolder.description.setText(transaction.getDescricao());
             transactionHolder.date.setText(Utils.dateMillisToString(transaction.getTime(), "HH:mm"));
             transactionHolder.value.setText(formatCurrency(transaction.getValor()));
-            transactionHolder.attachments.setText(transaction.getAttachmentUrls().isEmpty()
+            transactionHolder.attachments.setText(transaction.getAttachments().isEmpty()
                     ? activity.getString(R.string.no_attachment)
-                    : activity.getString(R.string.attachments_format, transaction.getAttachmentUrls().size()
+                    : activity.getString(R.string.attachments_format, transaction.getAttachments().size()
             ));
 
-            Drawable attachmentDrawable = transaction.getAttachmentUrls().isEmpty()
+            Drawable attachmentDrawable = transaction.getAttachments().isEmpty()
                     ? activity.getDrawable(R.drawable.ic_no_attachment_18dp)
                     : activity.getDrawable(R.drawable.ic_attachment_18dp);
 

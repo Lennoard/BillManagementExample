@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="240dp"
+    android:layout_height="160dp"
+    android:id="@+id/attachmentItemCard"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/attachmentItemImage"
+            android:src="@drawable/placeholder_image"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="@color/color_background_alpha">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/attachmentItemFileType"
+                android:src="@drawable/ic_file" />
+
+            <TextView
+                style="@style/SingleLineText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/attachmentItemFileName"
+                android:layout_marginStart="16dp"
+                android:ellipsize="middle"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorOnSurface"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</com.google.android.material.card.MaterialCardView>
