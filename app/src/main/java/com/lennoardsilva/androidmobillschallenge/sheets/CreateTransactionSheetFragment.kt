@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import com.google.firebase.Timestamp
 import com.lennoardsilva.androidmobillschallenge.BillsApp
 import com.lennoardsilva.androidmobillschallenge.R
@@ -14,6 +16,7 @@ import com.lennoardsilva.androidmobillschallenge.data.Consts
 import com.lennoardsilva.androidmobillschallenge.data.model.Expense
 import com.lennoardsilva.androidmobillschallenge.data.model.Revenue
 import com.lennoardsilva.androidmobillschallenge.data.model.Transaction
+import com.lennoardsilva.androidmobillschallenge.fragments.BaseListFragment
 import com.lennoardsilva.androidmobillschallenge.timeString
 import com.lennoardsilva.androidmobillschallenge.toast
 import com.lennoardsilva.androidmobillschallenge.utils.*
@@ -98,6 +101,10 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
         ref.document(it.id).set(it).addOnCompleteListener { task ->
             createTransactionSheetProgress.hide()
             if (task.isSuccessful) {
+                setFragmentResult(
+                    BaseListFragment.TRANSACTION_REQUEST_KEY,
+                    bundleOf(Consts.EXTRA_TRANSACTION to transaction)
+                )
                 dismiss()
             } else {
                 requireContext().toast(R.string.failed_to_save)

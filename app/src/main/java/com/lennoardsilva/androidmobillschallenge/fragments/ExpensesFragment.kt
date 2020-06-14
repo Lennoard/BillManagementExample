@@ -3,7 +3,7 @@ package com.lennoardsilva.androidmobillschallenge.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.setFragmentResultListener
 import com.google.firebase.firestore.ktx.toObjects
 import com.lennoardsilva.androidmobillschallenge.BillsApp
 import com.lennoardsilva.androidmobillschallenge.R
@@ -14,6 +14,14 @@ import kotlinx.android.synthetic.main.base_list_fragment.*
 
 class ExpensesFragment : BaseListFragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        childFragmentManager.setFragmentResultListener(TRANSACTION_REQUEST_KEY, this) { _, _ ->
+            retrieveData()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -22,15 +30,14 @@ class ExpensesFragment : BaseListFragment() {
         baseListFragmentSwipeLayout.apply {
             setColorSchemeResources(R.color.colorAccent, R.color.colorAccentVariant)
             setOnRefreshListener {
-                retrieveExpenses()
+                retrieveData()
             }
         }
 
         baseListFragmentAdd.setOnClickListener {
-            val appCompatActivity = requireActivity() as AppCompatActivity
             val title = getString(R.string.new_expense)
             CreateTransactionSheetFragment.newInstance(Expense(), title).show(
-                appCompatActivity.supportFragmentManager,
+                childFragmentManager,
                 "CreateTransactionSheetFragment"
             )
         }
@@ -40,7 +47,7 @@ class ExpensesFragment : BaseListFragment() {
             override fun onLoadMore(currentPosition: Int) {
                 adapter?.addItem(null)
                 maxResults += ITEMS_PER_PAGE
-                retrieveExpenses(currentPosition)
+                retrieveData(currentPosition)
             }
         })
     }
@@ -48,10 +55,10 @@ class ExpensesFragment : BaseListFragment() {
     override fun onResume() {
         super.onResume()
 
-        retrieveExpenses()
+        retrieveData()
     }
 
-    private fun retrieveExpenses(currentPosition: Int = 0) {
+    override fun retrieveData(currentPosition: Int) {
         baseListFragmentSwipeLayout.isRefreshing = true
         BillsApp.userExpensesRef.get().addOnCompleteListener { task ->
             if (!isAdded) return@addOnCompleteListener

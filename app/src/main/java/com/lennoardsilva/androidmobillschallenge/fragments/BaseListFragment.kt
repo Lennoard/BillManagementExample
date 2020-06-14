@@ -19,10 +19,17 @@ interface OnLoadMoreListener {
     fun onLoadMore(currentPosition: Int = -1)
 }
 
-open class BaseListFragment : Fragment() {
+abstract class BaseListFragment : Fragment() {
     protected val transactions = mutableListOf<Transaction>()
     protected var adapter: TransactionAdapter? = null
     protected var maxResults = ITEMS_PER_PAGE
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        childFragmentManager.clearFragmentResult(TRANSACTION_REQUEST_KEY)
+        childFragmentManager.clearFragmentResultListener(TRANSACTION_REQUEST_KEY)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +43,8 @@ open class BaseListFragment : Fragment() {
 
         setupRecyclerView()
     }
+
+    abstract fun retrieveData(currentPosition: Int = 0)
 
     protected fun refresh(currentPosition: Int = 0) {
         if (transactions.isEmpty()) {
@@ -85,5 +94,6 @@ open class BaseListFragment : Fragment() {
 
     companion object {
         const val ITEMS_PER_PAGE = 16
+        const val TRANSACTION_REQUEST_KEY = "transaction_request"
     }
 }

@@ -124,9 +124,11 @@ public class TransactionAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int pos) {
         if (holder instanceof TransactionViewHolder) {
             TransactionViewHolder transactionHolder = (TransactionViewHolder) holder;
+
+            int position = transactionHolder.getAdapterPosition();
             Transaction transaction = dataSet.get(position);
 
             transactionHolder.description.setText(transaction.getDescricao());

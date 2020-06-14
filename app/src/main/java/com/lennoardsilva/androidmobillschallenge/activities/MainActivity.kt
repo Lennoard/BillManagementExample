@@ -9,7 +9,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.lennoardsilva.androidmobillschallenge.BillsApp
@@ -38,7 +37,6 @@ class MainActivity : BaseActivity(),
         setUpDrawer(toolbar)
 
         bottomNavigation.setOnNavigationItemSelectedListener(this)
-
         replaceFragment(ExpensesFragment())
     }
 
@@ -101,14 +99,7 @@ class MainActivity : BaseActivity(),
                 supportFragmentManager.beginTransaction().apply {
                     setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit)
                     replace(R.id.mainFragmentHolder, fragment)
-                    commitAllowingStateLoss()
-                }
-
-                if (!supportFragmentManager.isStateSaved) {
-                    supportFragmentManager.popBackStack(
-                        null,
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE
-                    )
+                    commit()
                 }
             }
             if (!Handler().postDelayed(r, 100)) {
