@@ -87,7 +87,7 @@ class RegisterSheetFragment : BottomSheetDialogFragment() {
                             val message = task.exception?.message
                                 ?: getString(R.string.sign_in_error_unknown)
 
-                            showErrorDialog(getString(R.string.sign_in_error, message))
+                            showErrorDialog(getString(R.string.failure_format, message))
                             registerProgress.goAway()
                         }
                     }
