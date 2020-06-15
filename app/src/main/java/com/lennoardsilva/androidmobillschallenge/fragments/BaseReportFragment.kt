@@ -186,10 +186,10 @@ abstract class BaseReportFragment : Fragment() {
         reportCardTotalPaid.setValueText(totalPaid.formatCurrency())
         reportCardTotalToBePaid.setValueText(totalToBePaid.formatCurrency())
 
-        reportCardAverage.setSubText(getString(
-            R.string.smallest_format,
-            cheapest.formatCurrency()
-        ))
+        reportCardAverage.setSubText(
+            getString(R.string.biggest_format, mostExpensive.formatCurrency()) + "\n" +
+                    getString(R.string.smallest_format, cheapest.formatCurrency())
+        )
 
         val set = LineDataSet(entries,"").apply {
             setDrawIcons(false)
@@ -202,12 +202,14 @@ abstract class BaseReportFragment : Fragment() {
             lineWidth = 3F
         }
 
-        reportCardTimeline.setChartDataSet(set)
-        reportCardTimeline.setValueText(thisMonthTransactions.size.toString())
-        reportCardTimeline.setSubText(getString(
-            R.string.biggest_format,
-            mostExpensive.formatCurrency()
-        ))
+        with (reportCardTimeline) {
+            setChartDataSet(set)
+            setValueText(thisMonthTransactions.size.toString())
+
+            val firstDay = Utils.dateMillisToString(oldest, "dd/MM")
+            val lastDay = Utils.dateMillisToString(mostRecent, "dd/MM")
+            reportCardTimeline.setSubText("$firstDay - $lastDay")
+        }
 
         if (thisMonthTransactions.isEmpty()) {
             reportCardBalance.setValueText("0%")
