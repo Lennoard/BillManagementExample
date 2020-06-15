@@ -16,7 +16,7 @@ import com.lennoardsilva.androidmobillschallenge.data.Consts
 import com.lennoardsilva.androidmobillschallenge.data.model.Expense
 import com.lennoardsilva.androidmobillschallenge.data.model.Revenue
 import com.lennoardsilva.androidmobillschallenge.data.model.Transaction
-import com.lennoardsilva.androidmobillschallenge.fragments.BaseListFragment
+import com.lennoardsilva.androidmobillschallenge.fragments.BaseListTransactionsFragment
 import com.lennoardsilva.androidmobillschallenge.timeString
 import com.lennoardsilva.androidmobillschallenge.toast
 import com.lennoardsilva.androidmobillschallenge.utils.*
@@ -102,7 +102,7 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
             createTransactionSheetProgress.hide()
             if (task.isSuccessful) {
                 setFragmentResult(
-                    BaseListFragment.TRANSACTION_REQUEST_KEY,
+                    BaseListTransactionsFragment.TRANSACTION_REQUEST_KEY,
                     bundleOf(Consts.EXTRA_TRANSACTION to transaction)
                 )
                 dismiss()
@@ -127,7 +127,7 @@ class CreateTransactionSheetFragment : BaseSheetFragment() {
 
                 // 01/01/2010 01:01
                 createTransactionSheetTime.setText(
-                    "${dayOfMonth.timeString()}/${month.timeString()}/$year ${hourOfDay.timeString()}:${minute.timeString()}"
+                    "${dayOfMonth.timeString()}/${(month+1).timeString()}/$year ${hourOfDay.timeString()}:${minute.timeString()}"
                 )
             }, 7, 0, true)
             timePicker.show()

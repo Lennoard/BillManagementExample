@@ -255,7 +255,7 @@ class EditTransactionActivity : BaseActivity(), AttachmentRequestListener {
 
                 // 01/01/2010 01:01
                 editTransactionTime.setText(
-                    "${dayOfMonth.timeString()}/${month.timeString()}/$year ${hourOfDay.timeString()}:${minute.timeString()}"
+                    "${dayOfMonth.timeString()}/${(month+1).timeString()}/$year ${hourOfDay.timeString()}:${minute.timeString()}"
                 )
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
             timePicker.show()
