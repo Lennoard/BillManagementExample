@@ -105,7 +105,7 @@ abstract class BaseReportFragment : Fragment() {
 
     protected fun populate() {
         val entries = mutableListOf<Entry>()
-        var totalExpenses = 0.0
+        var total = 0.0
         var lastMonthTotal = 0.0
         var totalPaid = 0.0
         var totalToBePaid = 0.0
@@ -114,9 +114,11 @@ abstract class BaseReportFragment : Fragment() {
         var oldest = System.currentTimeMillis()
         var mostRecent = 0L
 
-        transactions.filter {
+        val thisMonthTransactions = transactions.filter {
             it.time.between(getCurrentMonthTime(), getNextMonthTime())
-        }.forEachIndexed { index, it ->
+        }
+
+        thisMonthTransactions.forEachIndexed { index, it ->
             if (it.valor > mostExpensive) mostExpensive = it.valor
             if (it.valor < cheapest) cheapest = it.valor
             if (it.time < oldest) oldest = it.time
@@ -140,11 +142,11 @@ abstract class BaseReportFragment : Fragment() {
                 }
             }
 
-            totalExpenses += it.valor
+            total += it.valor
             entries.add(Entry(index.toFloat(), it.valor.toFloat()))
         }
 
-        if (totalExpenses == 0.0) {
+        if (total == 0.0) {
             cheapest = 0.0
         }
 
@@ -157,23 +159,25 @@ abstract class BaseReportFragment : Fragment() {
         transactions.filter {
             it.time >= getCurrentMonthTime()
         }.size.let {
-            val averageExpense = if (it > 0) {
-                totalExpenses / it
+            val average = if (it > 0) {
+                total / it
             } else 0.0
-            reportCardAverage.setValueText(averageExpense.formatCurrency())
+            reportCardAverage.setValueText(average.formatCurrency())
         }
 
-        val percentageChange = totalExpenses percentageChangeFrom lastMonthTotal
+        reportCardTimeline.setChartDataSet(null)
 
-        reportCardBalance.setValueText(getPercentageChange(totalExpenses, lastMonthTotal))
+        val percentageChange = total percentageChangeFrom lastMonthTotal
+
+        reportCardBalance.setValueText(getPercentageChange(total, lastMonthTotal))
+        reportCardBalance.setSubText(getString(R.string.compared_last_month))
         reportCardBalance.setValueTextColor(if (percentageChange > 0) {
             ContextCompat.getColor(requireContext(), R.color.colorSuccess)
         } else {
             ContextCompat.getColor(requireContext(), R.color.colorError)
         })
-        reportCardBalance.setSubText(getString(R.string.compared_last_month))
 
-        reportCardTotalTransactions.setValueText(totalExpenses.formatCurrency())
+        reportCardTotalTransactions.setValueText(total.formatCurrency())
         reportCardTotalTransactions.setSubText(getString(
             R.string.last_month_format,
             lastMonthTotal.formatCurrency()
@@ -199,13 +203,26 @@ abstract class BaseReportFragment : Fragment() {
         }
 
         reportCardTimeline.setChartDataSet(set)
-        reportCardTimeline.setValueText(transactions.filter {
-            it.time.between(getCurrentMonthTime(), getNextMonthTime())
-        }.size.toString())
+        reportCardTimeline.setValueText(thisMonthTransactions.size.toString())
         reportCardTimeline.setSubText(getString(
             R.string.biggest_format,
             mostExpensive.formatCurrency()
         ))
+
+        if (thisMonthTransactions.isEmpty()) {
+            reportCardBalance.setValueText("0%")
+            reportCardBalance.setValueTextColor(
+                ContextCompat.getColor(requireContext(), R.color.colorOnSurface)
+            )
+        } else {
+            if (thisMonthTransactions.first() is Revenue) {
+                reportCardBalance.setValueTextColor(if (percentageChange > 0) {
+                    ContextCompat.getColor(requireContext(), R.color.colorError)
+                } else {
+                    ContextCompat.getColor(requireContext(), R.color.colorSuccess)
+                })
+            }
+        }
 
         reportLayout.show()
         reportSwipe.isRefreshing = false

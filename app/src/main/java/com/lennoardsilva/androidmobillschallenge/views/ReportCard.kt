@@ -4,15 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.card.MaterialCardView
 import com.lennoardsilva.androidmobillschallenge.R
-import com.lennoardsilva.androidmobillschallenge.formatCurrency
 import com.lennoardsilva.androidmobillschallenge.utils.goAway
-import com.lennoardsilva.androidmobillschallenge.utils.hide
 import com.lennoardsilva.androidmobillschallenge.utils.show
 
 class ReportCard(context: Context, attrs: AttributeSet): MaterialCardView(context, attrs) {
@@ -81,12 +78,29 @@ class ReportCard(context: Context, attrs: AttributeSet): MaterialCardView(contex
         subTextView.show()
     }
 
-    fun setChartData(data: LineData) {
-        chart.data = data
-        chart.show()
+    private fun setChartData(data: LineData?) {
+        if (data == null) {
+            chart.goAway()
+        } else {
+            chart.data = data
+            chart.show()
+        }
     }
 
-    fun setChartDataSet(dataSet: LineDataSet) {
-        setChartData(LineData(dataSet))
+    fun setChartDataSet(dataSet: LineDataSet?) {
+        when {
+            dataSet == null -> {
+                chart.goAway()
+            }
+            chart.data != null -> {
+                chart.data = LineData(dataSet)
+                chart.data.notifyDataChanged()
+                chart.notifyDataSetChanged()
+                chart.show()
+            }
+            else -> {
+                setChartData(LineData(dataSet))
+            }
+        }
     }
 }
