@@ -1,9 +1,8 @@
 package com.lennoardsilva.androidmobillschallenge.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.data.Entry
@@ -13,6 +12,7 @@ import com.lennoardsilva.androidmobillschallenge.*
 import com.lennoardsilva.androidmobillschallenge.data.model.Expense
 import com.lennoardsilva.androidmobillschallenge.data.model.Revenue
 import com.lennoardsilva.androidmobillschallenge.data.model.Transaction
+import com.lennoardsilva.androidmobillschallenge.utils.Utils
 import com.lennoardsilva.androidmobillschallenge.utils.show
 import kotlinx.android.synthetic.main.reports_fragment.*
 import java.util.*
@@ -20,6 +20,14 @@ import kotlin.math.absoluteValue
 
 abstract class BaseReportFragment : Fragment() {
     protected val transactions = mutableListOf<Transaction>()
+    private var currentMonth = GregorianCalendar().get(Calendar.MONTH)
+    private var currentYear = GregorianCalendar().get(Calendar.YEAR)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +56,51 @@ abstract class BaseReportFragment : Fragment() {
         retrieveData()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.reports_action, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (!isAdded) return false
+
+        return when (item.itemId) {
+            R.id.reportActionPreviousMonth -> {
+                currentMonth = if (currentMonth == Calendar.JANUARY) {
+                    Calendar.DECEMBER
+                } else {
+                    currentMonth - 1
+                }
+
+                currentYear = if (currentMonth == Calendar.DECEMBER) {
+                    currentYear - 1
+                } else {
+                    currentYear
+                }
+
+                retrieveData()
+                true
+            }
+
+            R.id.reportActionNextMonth -> {
+                currentMonth = if (currentMonth == Calendar.DECEMBER) {
+                    Calendar.JANUARY
+                } else {
+                    currentMonth + 1
+                }
+
+                currentYear = if (currentMonth == Calendar.JANUARY) {
+                    currentYear + 1
+                } else {
+                    currentYear
+                }
+                retrieveData()
+                true
+            }
+            else -> false
+        }
+    }
+
     abstract fun retrieveData()
 
     protected fun populate() {
@@ -61,7 +114,9 @@ abstract class BaseReportFragment : Fragment() {
         var oldest = System.currentTimeMillis()
         var mostRecent = 0L
 
-        transactions.filter { it.time >= getCurrentMonthTime() }.forEachIndexed { index, it ->
+        transactions.filter {
+            it.time.between(getCurrentMonthTime(), getNextMonthTime())
+        }.forEachIndexed { index, it ->
             if (it.valor > mostExpensive) mostExpensive = it.valor
             if (it.valor < cheapest) cheapest = it.valor
             if (it.time < oldest) oldest = it.time
@@ -94,7 +149,7 @@ abstract class BaseReportFragment : Fragment() {
         }
 
         transactions.filter {
-            it.time >= getLastMonthTime() && it.time < getCurrentMonthTime()
+            it.time.between(getLastMonthTime(), getCurrentMonthTime())
         }.forEach {
             lastMonthTotal += it.valor
         }
@@ -116,6 +171,7 @@ abstract class BaseReportFragment : Fragment() {
         } else {
             ContextCompat.getColor(requireContext(), R.color.colorError)
         })
+        reportCardBalance.setSubText(getString(R.string.compared_last_month))
 
         reportCardTotalTransactions.setValueText(totalExpenses.formatCurrency())
         reportCardTotalTransactions.setSubText(getString(
@@ -144,7 +200,7 @@ abstract class BaseReportFragment : Fragment() {
 
         reportCardTimeline.setChartDataSet(set)
         reportCardTimeline.setValueText(transactions.filter {
-            it.time >= getCurrentMonthTime()
+            it.time.between(getCurrentMonthTime(), getNextMonthTime())
         }.size.toString())
         reportCardTimeline.setSubText(getString(
             R.string.biggest_format,
@@ -153,30 +209,73 @@ abstract class BaseReportFragment : Fragment() {
 
         reportLayout.show()
         reportSwipe.isRefreshing = false
+        updateSubTitle()
+    }
+
+    fun showErrorDialog(message: String?, cancelable: Boolean = false, onOkClick: (() -> Unit)? = null) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setIcon(R.drawable.ic_error)
+            .setTitle(R.string.error)
+            .setMessage(message ?: getString(R.string.error))
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                onOkClick?.let { it() }
+            }
+            .setCancelable(cancelable)
+            .show()
     }
 
     private fun getCurrentMonthTime(): Long {
         return GregorianCalendar().apply {
+            set(Calendar.YEAR, currentYear)
+            set(Calendar.MONTH, currentMonth)
             set(Calendar.DAY_OF_MONTH, 1)
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
-        }.time.time
+        }.timeInMillis
     }
 
     private fun getLastMonthTime(): Long {
-        val thisMonth = GregorianCalendar().get(Calendar.MONTH)
-        val lastMonth = if (thisMonth == Calendar.JANUARY) {
+        val lastMonth = if (currentMonth == Calendar.JANUARY) {
             Calendar.DECEMBER
         } else {
-            thisMonth - 1
+            currentMonth - 1
+        }
+
+        val year = if (lastMonth == Calendar.DECEMBER) {
+            currentYear - 1
+        } else {
+            currentYear
         }
 
         return GregorianCalendar().apply {
+            set(Calendar.YEAR, year)
             set(Calendar.MONTH, lastMonth)
             set(Calendar.DAY_OF_MONTH, 1)
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
-        }.time.time
+        }.timeInMillis
+    }
+
+    private fun getNextMonthTime(): Long {
+        val nextMonth = if (currentMonth == Calendar.DECEMBER) {
+            Calendar.JANUARY
+        } else {
+            currentMonth + 1
+        }
+
+        val year = if (nextMonth == Calendar.JANUARY) {
+            currentYear + 1
+        } else {
+            currentYear
+        }
+
+        return GregorianCalendar().apply {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, nextMonth)
+            set(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+        }.timeInMillis
     }
 
     private fun getPercentageChange(a: Double, b: Double) : String {
@@ -197,15 +296,13 @@ abstract class BaseReportFragment : Fragment() {
         }
     }
 
-    fun showErrorDialog(message: String?, cancelable: Boolean = false, onOkClick: (() -> Unit)? = null) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setIcon(R.drawable.ic_error)
-            .setTitle(R.string.error)
-            .setMessage(message ?: getString(R.string.error))
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                onOkClick?.let { it() }
-            }
-            .setCancelable(cancelable)
-            .show()
+    private fun updateSubTitle() {
+        val calendar = GregorianCalendar().apply {
+            set(Calendar.YEAR, currentYear)
+            set(Calendar.MONTH, currentMonth)
+        }
+        Utils.dateMillisToString(calendar.timeInMillis, "MMMM")?.let {
+            (requireActivity() as AppCompatActivity).supportActionBar?.subtitle = it.capitalize()
+        }
     }
 }

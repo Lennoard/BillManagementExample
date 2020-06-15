@@ -64,5 +64,6 @@
     <string name="smallest_format">Smallest: %s</string>
     <string name="total_revenue">Total revenue</string>
     <string name="sign_out">Sign out</string>
+    <string name="next_month">Next month</string>
 
 </resources>

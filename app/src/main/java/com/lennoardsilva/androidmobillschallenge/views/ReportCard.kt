@@ -10,6 +10,9 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.card.MaterialCardView
 import com.lennoardsilva.androidmobillschallenge.R
+import com.lennoardsilva.androidmobillschallenge.formatCurrency
+import com.lennoardsilva.androidmobillschallenge.utils.goAway
+import com.lennoardsilva.androidmobillschallenge.utils.hide
 import com.lennoardsilva.androidmobillschallenge.utils.show
 
 class ReportCard(context: Context, attrs: AttributeSet): MaterialCardView(context, attrs) {

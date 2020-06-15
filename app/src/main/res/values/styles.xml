@@ -22,7 +22,7 @@
     <style name="ToolbarStyle">
         <item name="android:background">@color/colorBackground</item>
         <item name="titleTextColor">?attr/colorOnBackground</item>
-        <item name="subtitleTextColor">@color/material_on_primary_emphasis_medium</item>
+        <item name="subtitleTextColor">@color/color_on_background_alpha</item>
         <item name="android:theme">@style/ToolbarTheme</item>
     </style>
 

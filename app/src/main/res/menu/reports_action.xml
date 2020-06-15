@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/reportActionPreviousMonth"
+        android:title="@string/next_month"
+        android:icon="@drawable/ic_calendar_left"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/reportActionNextMonth"
+        android:title="@string/next_month"
+        android:icon="@drawable/ic_calendar_right"
+        app:showAsAction="always"/>
+</menu>

@@ -4,7 +4,7 @@
     <string name="email">E-mail</string>
     <string name="password">Senha</string>
     <string name="sign_in">Entrar</string>
-    <string name="register_hint">Nãp tem uma conta? Toque aqui para criar uma com um novo email e senha</string>
+    <string name="register_hint">Não tem uma conta? Toque aqui para criar uma com um novo email e senha</string>
     <string name="welcome">Bem-vindo!</string>
     <string name="sign_in_text">Por favor, faça login para continuar</string>
     <string name="invalid_email_message">Por favor, insira um endereço de email válido</string>

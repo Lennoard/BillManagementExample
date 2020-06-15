@@ -53,6 +53,10 @@ fun Double.formatCurrency(): String {
     return formatter.format(this)
 }
 
+fun Long.between(one: Long, other: Long): Boolean {
+    return this in one until other
+}
+
 infix fun Double.percentageChangeFrom(other: Double): Double {
     if (this == 0.0) return 100.0
     return ((other - this) / this) * 100
