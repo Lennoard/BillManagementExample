@@ -1,5 +1,6 @@
 package com.lennoardsilva.androidmobillschallenge.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationView
 import com.lennoardsilva.androidmobillschallenge.BillsApp
 import com.lennoardsilva.androidmobillschallenge.R
@@ -152,6 +154,15 @@ class MainActivity : BaseActivity(),
         navigationView.inflateHeaderView(R.layout.nav_header).also {
             it.findViewById<ImageView>(R.id.drawerProfilePic).load(localUser.photoUrl)
             it.findViewById<TextView>(R.id.drawerEmail).text = localUser.email
+            it.findViewById<MaterialButton>(R.id.signOutButton).setOnClickListener {
+                BillsApp.auth.signOut()
+                Intent(this, LoginActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(this)
+                }
+                finish()
+            }
         }
     }
 }

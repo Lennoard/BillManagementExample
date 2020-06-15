@@ -38,7 +38,7 @@
     <string name="failed_to_save">Failed to save data</string>
     <string name="no_attachment">No attachments</string>
     <string name="attachments_format">%d attachments</string>
-    <string name="value_format_list_item">%s   •  </string>
+    <string name="value_format_list_item" translatable="false">%s   •  </string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="delete_prompt">Are you absolutely sure you want to delete this?</string>
@@ -63,5 +63,6 @@
     <string name="biggest_format">Biggest: %s</string>
     <string name="smallest_format">Smallest: %s</string>
     <string name="total_revenue">Total revenue</string>
+    <string name="sign_out">Sign out</string>
 
 </resources>
