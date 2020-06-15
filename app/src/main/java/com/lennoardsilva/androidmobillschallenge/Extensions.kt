@@ -7,11 +7,13 @@ import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import io.opencensus.internal.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.NumberFormat
 
 fun Context?.toast(messageRes: Int, length: Int = Toast.LENGTH_SHORT) {
     if (this == null) return
@@ -44,6 +46,22 @@ fun Int.toPx(context: Context?): Int {
             context.resources.displayMetrics
         ).toInt()
     }.getOrDefault(this)
+}
+
+fun Double.formatCurrency(context: Context) : String {
+    val formatter = NumberFormat.getCurrencyInstance()
+    return formatter.format(this)
+}
+
+infix fun Double.percentageChangeFrom(other: Double): Double {
+    if (this == 0.0) return 100.0
+    return ((other - this) / this) * 100
+}
+
+fun Double.round(decimals: Int = 2): Double {
+    var bd = BigDecimal(this)
+    bd = bd.setScale(decimals, RoundingMode.HALF_UP)
+    return bd.toDouble()
 }
 
 @ColorInt

@@ -27,7 +27,7 @@ import com.lennoardsilva.androidmobillschallenge.activities.EditTransactionActiv
 import com.lennoardsilva.androidmobillschallenge.data.model.Despesa;
 import com.lennoardsilva.androidmobillschallenge.data.model.Receita;
 import com.lennoardsilva.androidmobillschallenge.data.model.Transaction;
-import com.lennoardsilva.androidmobillschallenge.fragments.BaseListFragment;
+import com.lennoardsilva.androidmobillschallenge.fragments.BaseListTransactionsFragment;
 import com.lennoardsilva.androidmobillschallenge.fragments.OnLoadMoreListener;
 import com.lennoardsilva.androidmobillschallenge.sheets.ContextBottomSheet;
 import com.lennoardsilva.androidmobillschallenge.utils.Utils;
@@ -66,7 +66,7 @@ public class TransactionAdapter extends RecyclerView.Adapter {
                 int totalItemCount = layoutManager.getItemCount();
 
                 if (dy < 0 || totalItemCount < visibleThreshold) return;
-                if (totalItemCount < BaseListFragment.ITEMS_PER_PAGE) return;
+                if (totalItemCount < BaseListTransactionsFragment.ITEMS_PER_PAGE) return;
 
                 int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
 

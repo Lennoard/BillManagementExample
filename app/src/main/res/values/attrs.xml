@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="materialCardStyle" format="reference" />
+    <declare-styleable name="ReportCard">
+        <attr name="title" format="reference|string"/>
+        <attr name="value" format="reference|string"/>
+        <attr name="subText" format="reference|string"/>
+    </declare-styleable>
+</resources>

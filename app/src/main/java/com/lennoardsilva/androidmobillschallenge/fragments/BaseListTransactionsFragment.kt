@@ -19,7 +19,7 @@ interface OnLoadMoreListener {
     fun onLoadMore(currentPosition: Int = -1)
 }
 
-abstract class BaseListFragment : Fragment() {
+abstract class BaseListTransactionsFragment : Fragment() {
     protected val transactions = mutableListOf<Transaction>()
     protected var adapter: TransactionAdapter? = null
     protected var maxResults = ITEMS_PER_PAGE

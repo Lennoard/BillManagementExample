@@ -51,5 +51,16 @@
     <string name="download_completed">Download completed</string>
     <string name="upload_completed">Upload completed</string>
     <string name="error_file_too_big">Selected file is too large. Please select a file less than 10 MB in size.</string>
+    <string name="total_expenses">Total expenses</string>
+    <string name="average_cost">Average cost</string>
+    <string name="total_format">%d expenses</string>
+    <string name="last_month_format">Las month: %s</string>
+    <string name="total_paid">Total paid</string>
+    <string name="total_to_be_paid">Total to be paid</string>
+    <string name="total_balance">Balance</string>
+    <string name="compared_last_month">Compared to last month</string>
+    <string name="timeline">Timeline</string>
+    <string name="biggest_format">Biggest: %s</string>
+    <string name="smallest_format">Smallest: %s</string>
 
 </resources>

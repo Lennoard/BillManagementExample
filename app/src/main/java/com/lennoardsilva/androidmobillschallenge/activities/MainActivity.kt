@@ -14,6 +14,7 @@ import com.google.android.material.navigation.NavigationView
 import com.lennoardsilva.androidmobillschallenge.BillsApp
 import com.lennoardsilva.androidmobillschallenge.R
 import com.lennoardsilva.androidmobillschallenge.fragments.ExpensesFragment
+import com.lennoardsilva.androidmobillschallenge.fragments.ReportsFragment
 import com.lennoardsilva.androidmobillschallenge.fragments.RevenuesFragment
 import com.lennoardsilva.androidmobillschallenge.getColorFromAttr
 import com.lennoardsilva.androidmobillschallenge.utils.load
@@ -79,6 +80,7 @@ class MainActivity : BaseActivity(),
             // Bottom Navigation //
             R.id.navDashboard -> {
                 selectedBottomNavId = item.itemId
+                replaceFragment(ReportsFragment.newInstance())
                 true
             }
 

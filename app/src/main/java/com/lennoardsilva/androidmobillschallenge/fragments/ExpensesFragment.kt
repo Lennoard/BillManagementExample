@@ -13,7 +13,7 @@ import com.lennoardsilva.androidmobillschallenge.sheets.CreateTransactionSheetFr
 import com.lennoardsilva.androidmobillschallenge.utils.show
 import kotlinx.android.synthetic.main.base_list_fragment.*
 
-class ExpensesFragment : BaseListFragment() {
+class ExpensesFragment : BaseListTransactionsFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
