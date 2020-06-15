@@ -48,7 +48,7 @@ fun Int.toPx(context: Context?): Int {
     }.getOrDefault(this)
 }
 
-fun Double.formatCurrency(context: Context) : String {
+fun Double.formatCurrency(): String {
     val formatter = NumberFormat.getCurrencyInstance()
     return formatter.format(this)
 }

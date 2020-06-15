@@ -41,6 +41,15 @@ abstract class BaseListTransactionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        baseListFragmentAdd.hide()
+
+        baseListFragmentSwipeLayout.apply {
+            setColorSchemeResources(R.color.colorAccent, R.color.colorAccentVariant)
+            setOnRefreshListener {
+                retrieveData()
+            }
+        }
+
         setupRecyclerView()
     }
 

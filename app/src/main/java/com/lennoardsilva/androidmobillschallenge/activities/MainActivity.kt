@@ -13,9 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.lennoardsilva.androidmobillschallenge.BillsApp
 import com.lennoardsilva.androidmobillschallenge.R
-import com.lennoardsilva.androidmobillschallenge.fragments.ExpensesFragment
-import com.lennoardsilva.androidmobillschallenge.fragments.ReportsFragment
-import com.lennoardsilva.androidmobillschallenge.fragments.RevenuesFragment
+import com.lennoardsilva.androidmobillschallenge.fragments.*
 import com.lennoardsilva.androidmobillschallenge.getColorFromAttr
 import com.lennoardsilva.androidmobillschallenge.utils.load
 import kotlinx.android.synthetic.main.activity_main.*
@@ -39,6 +37,7 @@ class MainActivity : BaseActivity(),
 
         bottomNavigation.setOnNavigationItemSelectedListener(this)
         replaceFragment(ExpensesFragment())
+        supportActionBar?.title = getString(R.string.expenses)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -55,10 +54,9 @@ class MainActivity : BaseActivity(),
                     }
 
                     R.id.navDashboard -> {
-
+                        replaceFragment(ExpensesReportFragment.newInstance())
                     }
                 }
-
                 true
             }
 
@@ -71,21 +69,40 @@ class MainActivity : BaseActivity(),
                     }
 
                     R.id.navDashboard -> {
-
+                        replaceFragment(RevenuesReportFragment.newInstance())
                     }
                 }
                 true
             }
 
             // Bottom Navigation //
-            R.id.navDashboard -> {
+            R.id.navLists -> {
                 selectedBottomNavId = item.itemId
-                replaceFragment(ReportsFragment.newInstance())
+
+                when (selectedDrawerId) {
+                    R.id.navExpenses -> {
+                        replaceFragment(ExpensesFragment.newInstance())
+                    }
+
+                    R.id.navEarnings -> {
+                        replaceFragment(RevenuesFragment.newInstance())
+                    }
+                }
                 true
             }
 
-            R.id.navLists -> {
+            R.id.navDashboard -> {
                 selectedBottomNavId = item.itemId
+
+                when (selectedDrawerId) {
+                    R.id.navExpenses -> {
+                        replaceFragment(ExpensesReportFragment.newInstance())
+                    }
+
+                    R.id.navEarnings -> {
+                        replaceFragment(RevenuesReportFragment.newInstance())
+                    }
+                }
                 true
             }
 

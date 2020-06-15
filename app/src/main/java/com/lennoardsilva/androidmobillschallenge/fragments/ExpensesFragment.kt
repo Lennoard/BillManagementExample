@@ -26,15 +26,6 @@ class ExpensesFragment : BaseListTransactionsFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        baseListFragmentAdd.hide()
-
-        baseListFragmentSwipeLayout.apply {
-            setColorSchemeResources(R.color.colorAccent, R.color.colorAccentVariant)
-            setOnRefreshListener {
-                retrieveData()
-            }
-        }
-
         baseListFragmentAdd.setOnClickListener {
             val title = getString(R.string.new_expense)
             CreateTransactionSheetFragment.newInstance(Expense(), title).show(

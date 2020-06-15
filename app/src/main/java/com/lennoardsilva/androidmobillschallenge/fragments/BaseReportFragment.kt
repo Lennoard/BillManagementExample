@@ -8,15 +8,18 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.toObjects
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lennoardsilva.androidmobillschallenge.*
 import com.lennoardsilva.androidmobillschallenge.data.model.Expense
+import com.lennoardsilva.androidmobillschallenge.data.model.Revenue
+import com.lennoardsilva.androidmobillschallenge.data.model.Transaction
+import com.lennoardsilva.androidmobillschallenge.utils.show
 import kotlinx.android.synthetic.main.reports_fragment.*
 import java.util.*
+import kotlin.math.absoluteValue
 
-class ReportsFragment : Fragment() {
-    private val expenses = mutableListOf<Expense>()
+abstract class BaseReportFragment : Fragment() {
+    protected val transactions = mutableListOf<Transaction>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,29 +31,26 @@ class ReportsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        reportSwipe.apply {
+            setColorSchemeResources(R.color.colorAccent, R.color.colorAccentVariant)
+            setOnRefreshListener {
+                retrieveData()
+            }
+            // Prevent pulling it
+            isEnabled = false
+        }
     }
 
     override fun onResume() {
         super.onResume()
 
+        reportSwipe.isRefreshing = true
         retrieveData()
     }
 
-    private fun retrieveData() {
-        BillsApp.userExpensesRef.orderBy("time",
-            Query.Direction.ASCENDING
-        ).get().addOnCompleteListener { task -> // TODO: 14/06/2020 month
-            if (!isAdded) return@addOnCompleteListener
+    abstract fun retrieveData()
 
-            if (task.isSuccessful) {
-                expenses.clear()
-                expenses.addAll(task.result?.toObjects<Expense>()!!)
-                populate()
-            }
-        }
-    }
-
-    private fun populate() {
+    protected fun populate() {
         val entries = mutableListOf<Entry>()
         var totalExpenses = 0.0
         var lastMonthTotal = 0.0
@@ -61,29 +61,53 @@ class ReportsFragment : Fragment() {
         var oldest = System.currentTimeMillis()
         var mostRecent = 0L
 
-        expenses.filter { it.time >= getCurrentMonthTime() }.forEachIndexed { index, it ->
+        transactions.filter { it.time >= getCurrentMonthTime() }.forEachIndexed { index, it ->
             if (it.valor > mostExpensive) mostExpensive = it.valor
             if (it.valor < cheapest) cheapest = it.valor
             if (it.time < oldest) oldest = it.time
             if (it.time > mostRecent) mostRecent = it.time
 
-            if (it.pago) {
-                totalPaid += it.valor
-            } else {
-                totalToBePaid += it.valor
+            when (it) {
+                is Expense -> {
+                    if (it.pago) {
+                        totalPaid += it.valor
+                    } else {
+                        totalToBePaid += it.valor
+                    }
+                }
+
+                is Revenue -> {
+                    if (it.recebido) {
+                        totalPaid += it.valor
+                    } else {
+                        totalToBePaid += it.valor
+                    }
+                }
             }
 
             totalExpenses += it.valor
             entries.add(Entry(index.toFloat(), it.valor.toFloat()))
         }
 
-        expenses.filter { it.time >= getLastMonthTime() }.forEach {
+        if (totalExpenses == 0.0) {
+            cheapest = 0.0
+        }
+
+        transactions.filter {
+            it.time >= getLastMonthTime() && it.time < getCurrentMonthTime()
+        }.forEach {
             lastMonthTotal += it.valor
         }
 
-        val averageExpense = totalExpenses / expenses.filter {
+        transactions.filter {
             it.time >= getCurrentMonthTime()
-        }.size
+        }.size.let {
+            val averageExpense = if (it > 0) {
+                totalExpenses / it
+            } else 0.0
+            reportCardAverage.setValueText(averageExpense.formatCurrency())
+        }
+
         val percentageChange = totalExpenses percentageChangeFrom lastMonthTotal
 
         reportCardBalance.setValueText(getPercentageChange(totalExpenses, lastMonthTotal))
@@ -93,19 +117,18 @@ class ReportsFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.colorError)
         })
 
-        reportCardTotalExpenses.setValueText(totalExpenses.formatCurrency(requireContext()))
-        reportCardTotalExpenses.setSubText(getString(
+        reportCardTotalTransactions.setValueText(totalExpenses.formatCurrency())
+        reportCardTotalTransactions.setSubText(getString(
             R.string.last_month_format,
-            lastMonthTotal.formatCurrency(requireContext())
+            lastMonthTotal.formatCurrency()
         ))
 
-        reportCardTotalPaid.setValueText(totalPaid.formatCurrency(requireContext()))
-        reportCardTotalToBePaid.setValueText(totalToBePaid.formatCurrency(requireContext()))
+        reportCardTotalPaid.setValueText(totalPaid.formatCurrency())
+        reportCardTotalToBePaid.setValueText(totalToBePaid.formatCurrency())
 
-        reportCardAverage.setValueText(averageExpense.formatCurrency(requireContext()))
         reportCardAverage.setSubText(getString(
             R.string.smallest_format,
-            cheapest.formatCurrency(requireContext())
+            cheapest.formatCurrency()
         ))
 
         val set = LineDataSet(entries,"").apply {
@@ -120,13 +143,16 @@ class ReportsFragment : Fragment() {
         }
 
         reportCardTimeline.setChartDataSet(set)
-        reportCardTimeline.setValueText(expenses.filter {
+        reportCardTimeline.setValueText(transactions.filter {
             it.time >= getCurrentMonthTime()
         }.size.toString())
         reportCardTimeline.setSubText(getString(
             R.string.biggest_format,
-            mostExpensive.formatCurrency(requireContext())
+            mostExpensive.formatCurrency()
         ))
+
+        reportLayout.show()
+        reportSwipe.isRefreshing = false
     }
 
     private fun getCurrentMonthTime(): Long {
@@ -163,15 +189,23 @@ class ReportsFragment : Fragment() {
                 "-${change.round()}%"
             }
             change <= 500 -> {
-                "+500%"
+                "+${change.round().absoluteValue}%"
             }
             else -> {
-                "+${change.round()}%"
+                "+500%"
             }
         }
     }
 
-    companion object {
-        fun newInstance() = ReportsFragment()
+    fun showErrorDialog(message: String?, cancelable: Boolean = false, onOkClick: (() -> Unit)? = null) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setIcon(R.drawable.ic_error)
+            .setTitle(R.string.error)
+            .setMessage(message ?: getString(R.string.error))
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                onOkClick?.let { it() }
+            }
+            .setCancelable(cancelable)
+            .show()
     }
 }

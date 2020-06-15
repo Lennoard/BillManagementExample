@@ -56,6 +56,10 @@ class ReportCard(context: Context, attrs: AttributeSet): MaterialCardView(contex
         }
     }
 
+    override fun setOnClickListener(l: OnClickListener?) {
+        card.setOnClickListener(l)
+    }
+
     fun setTitleText(title: String) {
         titleTextView.text = title
     }

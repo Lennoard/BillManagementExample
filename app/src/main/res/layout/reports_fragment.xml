@@ -1,80 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/reportCard"
+    android:id="@+id/reportSwipe"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="0.5"
-            android:layout_marginEnd="4dp">
+            android:id="@+id/reportLayout"
+            android:visibility="gone"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp">
 
-            <com.lennoardsilva.androidmobillschallenge.views.ReportCard
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/reportCardTotalExpenses"
-                app:title="@string/total_expenses" />
+                android:orientation="vertical"
+                android:layout_weight="0.5"
+                android:layout_marginEnd="4dp">
 
-            <com.lennoardsilva.androidmobillschallenge.views.ReportCard
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:id="@+id/reportCardTimeline"
-                app:title="@string/timeline" />
+                <com.lennoardsilva.androidmobillschallenge.views.ReportCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reportCardTotalTransactions" />
 
-            <com.lennoardsilva.androidmobillschallenge.views.ReportCard
-                android:layout_width="match_parent"
+                <com.lennoardsilva.androidmobillschallenge.views.ReportCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/reportCardTimeline"
+                    app:title="@string/timeline" />
+
+                <com.lennoardsilva.androidmobillschallenge.views.ReportCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/reportCardTotalPaid"
+                    app:title="@string/total_paid" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:id="@+id/reportCardTotalPaid"
-                app:title="@string/total_paid" />
+                android:orientation="vertical"
+                android:layout_weight="0.5"
+                android:layout_marginStart="4dp">
+
+                <com.lennoardsilva.androidmobillschallenge.views.ReportCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reportCardBalance"
+                    app:title="@string/total_balance"
+                    app:subText="@string/compared_last_month" />
+
+                <com.lennoardsilva.androidmobillschallenge.views.ReportCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reportCardAverage"
+                    android:layout_marginTop="8dp"
+                    app:title="@string/average" />
+
+                <com.lennoardsilva.androidmobillschallenge.views.ReportCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/reportCardTotalToBePaid"
+                    app:title="@string/total_to_be_paid" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="0.5"
-            android:layout_marginStart="4dp">
+    </ScrollView>
 
-            <com.lennoardsilva.androidmobillschallenge.views.ReportCard
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/reportCardBalance"
-                app:title="@string/total_balance"
-                app:subText="@string/compared_last_month" />
-
-            <com.lennoardsilva.androidmobillschallenge.views.ReportCard
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/reportCardAverage"
-                android:layout_marginTop="8dp"
-                app:title="@string/average_cost" />
-
-            <com.lennoardsilva.androidmobillschallenge.views.ReportCard
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:id="@+id/reportCardTotalToBePaid"
-                app:title="@string/total_to_be_paid" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
