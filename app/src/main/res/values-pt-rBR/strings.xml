@@ -54,7 +54,7 @@
     <string name="total_expenses">Despesas totais</string>
     <string name="average">Média</string>
     <string name="total_format">%d despesas</string>
-    <string name="last_month_format">Último mês</string>
+    <string name="last_month_format">Último mês: %s</string>
     <string name="total_paid">Total pago</string>
     <string name="total_to_be_paid">Total a ser pago</string>
     <string name="total_balance">Balanço</string>

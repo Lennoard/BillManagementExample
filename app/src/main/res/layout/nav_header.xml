@@ -51,6 +51,15 @@
 
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        style="@style/FlatButton.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/signOutButton"
+        android:layout_gravity="end"
+        android:layout_marginEnd="24dp"
+        android:text="@string/sign_out"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
